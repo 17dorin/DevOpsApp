@@ -33,7 +33,7 @@ namespace MockDevOps
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDbContext<DevOpsContext>(options =>
+            services.AddDbContext<DevopsContext>(options =>
                 options.UseSqlServer(
                         Configuration.GetConnectionString("DefaultConnection")));
 

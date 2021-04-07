@@ -1,13 +1,21 @@
-﻿@model List<Project> 
+﻿@model ProjectViewModel 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@if(Model.Count != 0)
+@if(Model.UserProjects.Count != 0)
 {
-    foreach(Project p in Model)
+    foreach(Project p in Model.UserProjects)
     {
         <a>@p.ProjectName</a>
+        if(Model.UserAdminGroups.Contains(p.Id))
+        {
+            <a asp-controller="Projects" asp-action="Delete" asp-route-id="@p.Id">Delete Project</a>
+        }
+        else
+        {
+            <a>Leave Project</a>
+        }
     }
 }
 else

@@ -10,6 +10,7 @@ namespace MockDevOps.Models
         public int Id { get; set; }
         public int? ProjectId { get; set; }
         public string UserId { get; set; }
+        public bool? GroupAdmin { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual AspNetUser User { get; set; }

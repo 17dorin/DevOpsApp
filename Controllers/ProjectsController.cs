@@ -12,9 +12,9 @@ namespace MockDevOps.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly DevOpsContext _context;
+        private readonly DevopsContext _context;
 
-        public ProjectsController(DevOpsContext context)
+        public ProjectsController(DevopsContext context)
         {
             _context = context;
         }
@@ -66,6 +66,7 @@ namespace MockDevOps.Controllers
                 ProjectUser pu = new ProjectUser();
                 pu.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 pu.ProjectId = project.Id;
+                pu.GroupAdmin = true;
 
                 _context.ProjectUsers.Add(pu);
                 await _context.SaveChangesAsync();
@@ -150,9 +151,15 @@ namespace MockDevOps.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var project = await _context.Projects.FindAsync(id);
+            List<ProjectUser> pu = _context.ProjectUsers.Where(x => x.ProjectId == id).ToList();
+            foreach(ProjectUser p in pu)
+            {
+                _context.Remove(p);
+            }
             _context.Projects.Remove(project);
+            
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool ProjectExists(int id)
