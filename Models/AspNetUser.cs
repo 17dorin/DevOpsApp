@@ -13,6 +13,7 @@ namespace MockDevOps.Models
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
+            Invites = new HashSet<Invite>();
             ProjectUsers = new HashSet<ProjectUser>();
             TicketAssignedUserNavigations = new HashSet<Ticket>();
             TicketCreatingUserNavigations = new HashSet<Ticket>();
@@ -38,6 +39,7 @@ namespace MockDevOps.Models
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual ICollection<Invite> Invites { get; set; }
         public virtual ICollection<ProjectUser> ProjectUsers { get; set; }
         public virtual ICollection<Ticket> TicketAssignedUserNavigations { get; set; }
         public virtual ICollection<Ticket> TicketCreatingUserNavigations { get; set; }

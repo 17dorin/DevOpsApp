@@ -151,11 +151,14 @@ namespace MockDevOps.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var project = await _context.Projects.FindAsync(id);
+            //Gets list of many-to-many relationships of this group
             List<ProjectUser> pu = _context.ProjectUsers.Where(x => x.ProjectId == id).ToList();
+            //Deletes all relationships
             foreach(ProjectUser p in pu)
             {
                 _context.Remove(p);
             }
+            //Deletes project
             _context.Projects.Remove(project);
             
             await _context.SaveChangesAsync();

@@ -1,0 +1,26 @@
+﻿@model InviteViewModel
+
+<form method="post" asp-action="SendInvite" asp-controller="Invite">
+
+    <label for="ium">What user do you want to invite?</label>
+    <input type="text" name="ium" list="ium"/>
+        <datalist id="ium">
+            @foreach(InviteUserModel i in Model.Users)
+            {
+                <option value="@i.Id">@i.Username</option>
+            }
+        </datalist>
+
+    <br />
+
+    <label for="projectId">What project do you want to invite them to?</label>
+    <input type="text" name="projectId" list="projectId" />
+        <datalist id="projectId">
+            @foreach(Project p in Model.Projects)
+            {
+                <option value="@p.Id">@p.ProjectName</option>
+            }
+        </datalist>
+
+    <input type="submit" />
+</form>

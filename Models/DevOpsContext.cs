@@ -24,6 +24,7 @@ namespace MockDevOps.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<Invite> Invites { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
@@ -134,6 +135,21 @@ namespace MockDevOps.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<Invite>(entity =>
+            {
+                entity.Property(e => e.Receiver).HasMaxLength(450);
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Invites)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK__Invites__Project__49C3F6B7");
+
+                entity.HasOne(d => d.ReceiverNavigation)
+                    .WithMany(p => p.Invites)
+                    .HasForeignKey(d => d.Receiver)
+                    .HasConstraintName("FK__Invites__Receive__48CFD27E");
             });
 
             modelBuilder.Entity<Project>(entity =>
