@@ -139,6 +139,8 @@ namespace MockDevOps.Models
 
             modelBuilder.Entity<Invite>(entity =>
             {
+                entity.Property(e => e.ProjectName).HasMaxLength(250);
+
                 entity.Property(e => e.Receiver).HasMaxLength(450);
 
                 entity.HasOne(d => d.Project)

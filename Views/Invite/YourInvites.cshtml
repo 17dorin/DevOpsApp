@@ -1,0 +1,13 @@
+﻿@model List<Invite>
+
+@if(Model.Count != 0)
+{
+    foreach(Invite i in Model)
+    {
+        <a asp-action="AcceptInvite" asp-controller="Invite" asp-route-projectId="@i.ProjectId">@i.ProjectName</a>
+    }
+}
+else
+{
+    <h2>You do not have any invites</h2>
+}

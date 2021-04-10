@@ -53,9 +53,35 @@ namespace MockDevOps.Controllers
         {
             Invite i = new Invite();
             i.ProjectId = projectId;
+            i.ProjectName = _context.Projects.Where(x => x.Id == projectId).Select(x => x.ProjectName).ToList()[0];
             i.Receiver = _context.AspNetUsers.Where(x => x.Id == ium).Select(x => x.Id).ToList()[0];
 
             _context.Invites.Add(i);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public IActionResult YourInvites()
+        {
+            List<Invite> userInvites = _context.Invites.Where(x => x.Receiver == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList();
+
+            return View(userInvites);
+        }
+
+        public async Task<IActionResult> AcceptInvite(int projectId)
+        {
+            ProjectUser invitedUser = new ProjectUser();
+            invitedUser.ProjectId = projectId;
+            invitedUser.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            invitedUser.GroupAdmin = false;
+
+            _context.ProjectUsers.Add(invitedUser);
+            await _context.SaveChangesAsync();
+
+            Invite inviteToRemove = _context.Invites.Where(x => x.ProjectId == projectId && x.Receiver == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList()[0];
+            _context.Invites.Remove(inviteToRemove);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MockDevOps.Models;
 using System;
@@ -20,6 +21,7 @@ namespace MockDevOps.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             //Gets list of all project ids associated with currently logged in user
