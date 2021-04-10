@@ -28,6 +28,7 @@ namespace MockDevOps.Controllers
         {
             List<InviteUserModel> users = new List<InviteUserModel>();
             List<Project> projects = _context.Projects.ToList();
+            List<ProjectUser> adminGroups = _context.ProjectUsers.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value && x.GroupAdmin == true).ToList();
             InviteViewModel ivm = new InviteViewModel();
 
             foreach(AspNetUser u in _context.AspNetUsers)
@@ -41,7 +42,7 @@ namespace MockDevOps.Controllers
                 }
             }
 
-            ivm.Projects = projects;
+            ivm.Projects = projects.Where(x => adminGroups.Select(y => y.ProjectId).Contains(x.Id)).ToList();
             ivm.Users = users;
 
             return View(ivm);

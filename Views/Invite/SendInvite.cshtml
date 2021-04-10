@@ -14,13 +14,12 @@
     <br />
 
     <label for="projectId">What project do you want to invite them to?</label>
-    <input type="text" name="projectId" list="projectId" />
-        <datalist id="projectId">
-            @foreach(Project p in Model.Projects)
-            {
-                <option value="@p.Id">@p.ProjectName</option>
-            }
-        </datalist>
+    <select id="projectId" name="projectId">
+        @foreach(Project p in Model.Projects)
+        {
+            <option value="@p.Id">@p.ProjectName</option>
+        }
+    </select>
 
     <input type="submit" />
 </form>
